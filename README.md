@@ -1,6 +1,9 @@
 # jumpcutter
 Automatically edits videos. Explanation here: https://www.youtube.com/watch?v=DQ8orIurGxw
 
+# About My Fork
+My fork is strictly for removing any silence at all form the input video so it contains all the settings pre-loaded by default, another handy change is automatically deleting the TEMP folder, if present due to previous failed operations, which is very helpful when executing multiple chain operations in teminal/command line. The original version does not deletes the TEMP folder of a previous failed operation resulting the next operation in error, my changes mention in the above lines fixed it.
+
 ## Some heads-up:
 
 It uses Python 3.
