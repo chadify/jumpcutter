@@ -70,7 +70,7 @@ parser.add_argument('--silent_speed', type=float, default=999999.00, help="the s
 parser.add_argument('--frame_margin', type=float, default=2, help="some silent frames adjacent to sounded frames are included to provide context. How many frames on either the side of speech should be included? That's this variable.")
 parser.add_argument('--sample_rate', type=float, default=44100, help="sample rate of the input and output videos")
 parser.add_argument('--frame_rate', type=float, help="frame rate of the input and output videos. optional... I try to find it out myself, but it doesn't always work.")
-parser.add_argument('--frame_quality', type=int, default=3, help="quality of frames to be extracted from input video. 1 is highest, 31 is lowest, 3 is the default.")
+parser.add_argument('--frame_quality', type=int, default=5, help="quality of frames to be extracted from input video. 1 is highest, 31 is lowest, 3 is the default.")
 
 args = parser.parse_args()
 
@@ -106,6 +106,14 @@ subprocess.call(command, shell=True)
 command = "ffmpeg -i "+INPUT_FILE+" -ab 160k -ac 2 -ar "+str(SAMPLE_RATE)+" -vn "+TEMP_FOLDER+"/audio.wav"
 
 subprocess.call(command, shell=True)
+
+command = "ffmpeg -i "+TEMP_FOLDER+"/input.mp4 2>&1"
+f = open(TEMP_FOLDER+"/params.txt", "w")
+subprocess.call(command, shell=True, stdout=f)
+
+sampleRate, audioData = wavfile.read(TEMP_FOLDER+"/audio.wav")
+audioSampleCount = audioData.shape[0]
+maxAudioVolume = getMaxVolume(audioData)
 
 if frameRate is None:
     try:
